@@ -20,15 +20,15 @@ public class Film {
     @NotEmpty
     @NotBlank
     @Size(max = 200)
-    private final String name;
+    private String name;
     @NotNull
     @NotEmpty
-    private final String description;
+    private String description;
     @NotNull
     @DateIsntBefore28december1895
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final Date releaseDate;
+    private Date releaseDate;
     @NotNull
     @PositiveDuration
-    private final Integer duration;
+    private Integer duration;
 }

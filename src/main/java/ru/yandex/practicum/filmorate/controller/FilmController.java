@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.FilmDoesntExistException;
+import ru.yandex.practicum.filmorate.exception.UserDoesntExistException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.request.FilmRequest;
 
@@ -49,9 +50,13 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
         log.info("PUT update film: " + film);
-        films.removeIf(f -> f.getId().equals(film.getId()));
-        films.add(film);
-        return film;
+        Film currentFilm = films.stream().filter(u -> u.getId().equals(film.getId())).findAny()
+                .orElseThrow(FilmDoesntExistException::new);
+        currentFilm.setName(film.getName());
+        currentFilm.setDescription(film.getDescription());
+        currentFilm.setReleaseDate(film.getReleaseDate());
+        currentFilm.setDuration(film.getDuration());
+        return currentFilm;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

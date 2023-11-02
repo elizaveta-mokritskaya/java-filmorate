@@ -53,9 +53,13 @@ public class UserController {
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
         log.info("PUT update user: " + user);
-        users.removeIf(u -> u.getId().equals(user.getId()));
-        users.add(user);
-        return user;
+        User currentUser = users.stream().filter(u -> u.getId().equals(user.getId())).findAny()
+                .orElseThrow(UserDoesntExistException::new);
+        currentUser.setLogin(user.getLogin());
+        currentUser.setName(user.getName());
+        currentUser.setEmail(user.getEmail());
+        currentUser.setBirthday(user.getBirthday());
+        return currentUser;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
