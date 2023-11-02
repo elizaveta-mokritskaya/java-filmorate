@@ -23,7 +23,6 @@ public class UserRequest {
     @NotEmpty
     @DoesntContainWhitespaces
     private final String login;
-    @NotNull
     private final String name;
     @NotNull
     @PastOrPresent

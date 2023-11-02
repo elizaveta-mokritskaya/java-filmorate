@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.model.validation.DateIsntBefore28december1895;
+import ru.yandex.practicum.filmorate.model.validation.MaxLength;
 import ru.yandex.practicum.filmorate.model.validation.PositiveDuration;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
@@ -19,7 +19,7 @@ public class Film {
     @NotNull
     @NotEmpty
     @NotBlank
-    @Size(max = 200)
+    @MaxLength(val = 200)
     private String name;
     @NotNull
     @NotEmpty
