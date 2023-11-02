@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FilmReleaseDateValidatorTest {
     private final static FilmReleaseDateValidator validator = new FilmReleaseDateValidator();

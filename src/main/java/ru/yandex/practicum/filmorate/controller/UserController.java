@@ -47,7 +47,7 @@ public class UserController {
                 .birthday(userRequest.getBirthday())
                 .build();
         users.add(user);
-        return  user;
+        return user;
     }
 
     @PutMapping("/{id}")
@@ -58,7 +58,7 @@ public class UserController {
         currentUser.setName(userRequest.getName());
         currentUser.setLogin(userRequest.getLogin());
         currentUser.setBirthday(userRequest.getBirthday());
-        return  currentUser;
+        return currentUser;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

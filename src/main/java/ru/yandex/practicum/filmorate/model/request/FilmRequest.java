@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.model.request;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import ru.yandex.practicum.filmorate.model.validation.DateIsntBefore28december1895;
 import ru.yandex.practicum.filmorate.model.validation.PositiveDuration;
 
