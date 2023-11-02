@@ -26,7 +26,7 @@ public class Film {
     private final String description;
     @NotNull
     @DateIsntBefore28december1895
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private final Date releaseDate;
     @NotNull
     @PositiveDuration
