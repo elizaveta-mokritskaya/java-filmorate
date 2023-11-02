@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/1/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -50,15 +50,12 @@ public class UserController {
         return user;
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable("id") Integer id, @Valid @RequestBody UserRequest userRequest) {
-        log.info("PUT update user by id: " + id + ", " + userRequest);
-        User currentUser = getUsersById(id);
-        currentUser.setEmail(userRequest.getEmail());
-        currentUser.setName(userRequest.getName());
-        currentUser.setLogin(userRequest.getLogin());
-        currentUser.setBirthday(userRequest.getBirthday());
-        return currentUser;
+    @PutMapping
+    public User updateUser(@Valid @RequestBody User user) {
+        log.info("PUT update user: " + user);
+        users.removeIf(u -> u.getId().equals(user.getId()));
+        users.add(user);
+        return user;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

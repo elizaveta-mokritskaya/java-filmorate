@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/1/films")
+@RequestMapping("/films")
 @RequiredArgsConstructor
 @Slf4j
 public class FilmController {
@@ -46,15 +46,12 @@ public class FilmController {
         return film;
     }
 
-    @PutMapping("/{id}")
-    public Film updateFilm(@PathVariable("id") Integer id, @Valid @RequestBody FilmRequest filmRequest) {
-        log.info("PUT update film by id: " + id + ", " + filmRequest);
-        Film currentFilm = getFilmById(id);
-        currentFilm.setName(filmRequest.getName());
-        currentFilm.setDescription(filmRequest.getDescription());
-        currentFilm.setReleaseDate(filmRequest.getReleaseDate());
-        currentFilm.setDuration(filmRequest.getDuration());
-        return currentFilm;
+    @PutMapping
+    public Film updateFilm(@Valid @RequestBody Film film) {
+        log.info("PUT update film: " + film);
+        films.removeIf(f -> f.getId().equals(film.getId()));
+        films.add(film);
+        return film;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
