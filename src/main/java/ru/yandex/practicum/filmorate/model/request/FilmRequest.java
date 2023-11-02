@@ -16,10 +16,10 @@ public class FilmRequest {
     @NotNull
     @NotEmpty
     @NotBlank
-    @MaxLength(val = 200)
     private String name;
     @NotNull
     @NotEmpty
+    @MaxLength(val = 200)
     private String description;
     @NotNull
     @DateIsntBefore28december1895
