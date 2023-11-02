@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FilmDurationValidatorTest {
 
-    private final static FilmDurationValidator validator = new FilmDurationValidator();
+    private static final FilmDurationValidator validator = new FilmDurationValidator();
 
     @Test
     void isValid_positiveDuration() {

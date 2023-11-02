@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserLoginValidatorTest {
 
-    private final static UserLoginValidator validator = new UserLoginValidator();
+    private static final UserLoginValidator validator = new UserLoginValidator();
 
     @Test
     void isValid_withoutWhitespaces() {
