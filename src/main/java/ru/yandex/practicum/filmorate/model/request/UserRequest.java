@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -26,5 +27,6 @@ public class UserRequest {
     private final String name;
     @NotNull
     @PastOrPresent
+    @JsonFormat(pattern="yyyy-MM-dd")
     private final Date birthday;
 }

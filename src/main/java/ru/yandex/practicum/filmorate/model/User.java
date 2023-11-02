@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.model.validation.DoesntContainWhitespaces;
@@ -25,6 +26,7 @@ public class User {
     private String name;
     @NotNull
     @PastOrPresent
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthday;
 }
 
