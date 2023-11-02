@@ -27,6 +27,6 @@ public class UserRequest {
     private final String name;
     @NotNull
     @PastOrPresent
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private final Date birthday;
 }
