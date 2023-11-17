@@ -31,6 +31,7 @@ public class FilmService {
 
     public Film addNewFilm(FilmRequest request) {
         Film film = mapper.getFilm(request);
+        film.getLikes().forEach(userService::checkIfUserExists);
         film.setId(id++);
         storage.add(film);
         return film;

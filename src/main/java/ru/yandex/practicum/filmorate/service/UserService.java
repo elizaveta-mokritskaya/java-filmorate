@@ -30,6 +30,7 @@ public class UserService {
 
     public User addNewUser(UserRequest request) {
         User user = mapper.getUser(request);
+        user.getFriends().forEach(this::checkIfUserExists);
         user.setId(id++);
         storage.add(user);
         return user;

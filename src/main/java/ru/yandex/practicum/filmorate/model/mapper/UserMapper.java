@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.request.UserRequest;
 
+import java.util.HashSet;
+
 @Component
 public class UserMapper {
     public User getUser(UserRequest request) {
@@ -16,7 +18,7 @@ public class UserMapper {
                 .login(request.getLogin())
                 .name(name)
                 .birthday(request.getBirthday())
-                .friends(request.getFriends())
+                .friends(request.getFriends() == null ? new HashSet<>() : request.getFriends())
                 .build();
     }
 }
