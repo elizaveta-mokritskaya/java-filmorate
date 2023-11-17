@@ -59,14 +59,9 @@ public class FilmController {
         return filmService.getFilmById(filmId);
     }
 
-    @GetMapping("/popular?count={count}")
-    public List<Film> getTopFilms(@PathVariable("count") Integer count) {
-        return filmService.getTopFilms(count);
-    }
-
     @GetMapping("/popular")
-    public List<Film> getTop10Films() {
-        return getTopFilms(10);
+    public List<Film> getTopFilms(@RequestParam(required=true, defaultValue = "10") Integer count) {
+        return filmService.getTopFilms(count);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
