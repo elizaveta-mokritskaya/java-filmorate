@@ -33,5 +33,16 @@ public class Film {
     @PositiveDuration
     private Integer duration;
 
-    private HashSet<Integer> likes;
+    private HashSet<Integer> likes = new HashSet<>();
+
+    public Film(Integer id, String name, String description, Date releaseDate, Integer duration, HashSet<Integer> likes) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        if (likes != null) {
+            this.likes = likes;
+        }
+    }
 }
