@@ -29,6 +29,4 @@ public class FilmRequest {
     @NotNull
     @PositiveDuration
     private Integer duration;
-
-    private HashSet<Integer> likes;
 }

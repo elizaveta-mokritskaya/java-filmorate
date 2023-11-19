@@ -14,7 +14,6 @@ public class FilmMapper {
                 .description(request.getDescription())
                 .releaseDate(request.getReleaseDate())
                 .duration(request.getDuration())
-                .likes(request.getLikes() == null ? new HashSet<>() : request.getLikes())
                 .build();
     }
 }

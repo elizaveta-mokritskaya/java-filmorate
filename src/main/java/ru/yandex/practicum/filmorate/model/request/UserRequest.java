@@ -29,6 +29,4 @@ public class UserRequest {
     @PastOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final Date birthday;
-
-    private HashSet<Integer> friends;
 }

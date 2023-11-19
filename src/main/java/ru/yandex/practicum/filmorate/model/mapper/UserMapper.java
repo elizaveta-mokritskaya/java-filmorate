@@ -18,7 +18,6 @@ public class UserMapper {
                 .login(request.getLogin())
                 .name(name)
                 .birthday(request.getBirthday())
-                .friends(request.getFriends() == null ? new HashSet<>() : request.getFriends())
                 .build();
     }
 }
