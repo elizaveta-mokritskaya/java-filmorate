@@ -1,0 +1,70 @@
+// documentation: https://dbml.dbdiagram.io/docs/
+
+enum mpa {
+  G
+  PG
+  PG_13
+  R
+  NC_17
+}
+
+enum genre {
+  COMEDY
+  DRAMA
+  CARTOON
+  THRILLER
+  DOCUMENTARY
+  ACTION_MOVIE
+}
+
+table film {
+  id integer [primary key]
+  name varchar(255) [not null]
+  description varchar(200) [not null]
+  release_date date [not null]
+  duration integer [not null]
+  mpa mpa [not null]
+}
+
+table film_genre {
+  film_id integer [not null, ref: > film.id]
+  genre genre [not null]
+
+  indexes {
+    (film_id, genre) [pk]
+  }
+}
+
+table user {
+  id integer [primary key]
+  email varchar(255) [not null]
+  login varchar(255) [not null]
+  name varchar(255) [not null]
+  birthday date [not null]
+}
+
+// user likes film
+table user_film {
+  user_id integer [not null, ref: > user.id]
+  film_id integer [not null, ref: > film.id]
+
+  indexes {
+    (user_id, film_id) [pk]
+  }
+}
+
+enum friend_relationship {
+  first_sent_friend_request
+  second_applied_friend_request
+}
+
+// users are friends
+table user_user {
+  first_user_id integer [not null, ref: > user.id]
+  second_user_id integer [not null, ref: > user.id]
+  relationship friend_relationship [not null]
+
+  indexes {
+    (first_user_id, second_user_id) [pk]
+  }
+}

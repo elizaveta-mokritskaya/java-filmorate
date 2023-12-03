@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashSet;
 
 @Data
@@ -34,6 +35,10 @@ public class Film {
     private Integer duration;
 
     private HashSet<Integer> likes = new HashSet<>();
+
+    private EnumSet<Genre> genres;
+
+    private MPA mpa;
 
     public Film(Integer id, String name, String description, Date releaseDate, Integer duration, HashSet<Integer> likes) {
         this.id = id;

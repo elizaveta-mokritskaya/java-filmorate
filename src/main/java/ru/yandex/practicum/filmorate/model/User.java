@@ -32,6 +32,10 @@ public class User {
 
     private HashSet<Integer> friends = new HashSet<>();
 
+    private HashSet<Integer> incomingFriendRequests = new HashSet<>();
+
+    private HashSet<Integer> outgoingFriendRequests = new HashSet<>();
+
     public User(Integer id, String email, String login, String name, Date birthday, HashSet<Integer> friends) {
         this.id = id;
         this.email = email;
