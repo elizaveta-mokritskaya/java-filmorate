@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.util.Date;
+import java.util.HashSet;
 
 @Data
 @Builder
@@ -28,5 +29,18 @@ public class User {
     @PastOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
+
+    private HashSet<Integer> friends = new HashSet<>();
+
+    public User(Integer id, String email, String login, String name, Date birthday, HashSet<Integer> friends) {
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        this.birthday = birthday;
+        if (friends != null) {
+            this.friends = friends;
+        }
+    }
 }
 

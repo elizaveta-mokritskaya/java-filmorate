@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.UserDoesntExistException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.request.UserRequest;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -17,49 +16,57 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-    private final List<User> users;
+    private final UserService userService;
 
     @GetMapping
     public List<User> getAllUsers() {
         log.info("GET all users request");
-        return users;
+        return userService.getUsers();
     }
 
     @GetMapping("/{id}")
     public User getUsersById(@PathVariable("id") Integer id) {
         log.info("GET user request by id: " + id);
-        return users.stream().filter(user -> user.getId().equals(id)).findAny()
-                .orElseThrow(UserDoesntExistException::new);
+        return userService.getUserById(id);
     }
 
     @PostMapping
     public User addNewUser(@Valid @RequestBody UserRequest userRequest) {
         log.info("POST add new user request: " + userRequest);
-        String name = userRequest.getName();
-        if (name == null || name.isEmpty()) {
-            name = userRequest.getLogin();
-        }
-        User user = User.builder()
-                .id(users.stream().max(Comparator.comparingInt(User::getId)).map(User::getId).orElse(0) + 1)
-                .email(userRequest.getEmail())
-                .login(userRequest.getLogin())
-                .name(name)
-                .birthday(userRequest.getBirthday())
-                .build();
-        users.add(user);
-        return user;
+        return userService.addNewUser(userRequest);
     }
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
         log.info("PUT update user: " + user);
-        User currentUser = users.stream().filter(u -> u.getId().equals(user.getId())).findAny()
-                .orElseThrow(UserDoesntExistException::new);
+        User currentUser = userService.getUserById(user.getId());
         currentUser.setLogin(user.getLogin());
         currentUser.setName(user.getName());
         currentUser.setEmail(user.getEmail());
         currentUser.setBirthday(user.getBirthday());
         return currentUser;
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public User addNewFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
+        userService.makeFriends(id, friendId);
+        return userService.getUserById(id);
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public User deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
+        userService.deleteFriends(id, friendId);
+        return userService.getUserById(id);
+    }
+
+    @GetMapping("/{id}/friends")
+    public List<User> getFriends(@PathVariable("id") Integer id) {
+        return userService.getFriends(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getCommonFriends(@PathVariable("id") Integer id, @PathVariable("otherId") Integer otherId) {
+        return userService.getCommonFriends(id, otherId);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
