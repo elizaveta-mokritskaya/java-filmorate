@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class DbGenreStorage implements GenreStorage {
 
-    public static final String SELECT_BY_ID_SQL = "select * from genres where id = ?";
+    public static final String SELECT_BY_ID = "select * from genres where id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,7 +27,7 @@ public class DbGenreStorage implements GenreStorage {
 
     @Override
     public Optional<Genre> getById(int genreId) {
-        return jdbcTemplate.query(SELECT_BY_ID_SQL, this::mapRowToGenre, genreId).stream().findFirst();
+        return jdbcTemplate.query(SELECT_BY_ID, this::mapRowToGenre, genreId).stream().findFirst();
     }
 
     private Genre mapRowToGenre(ResultSet resultSet, int rowNum) throws SQLException {

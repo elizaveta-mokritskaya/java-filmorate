@@ -6,26 +6,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.service.GenreService;
+import ru.yandex.practicum.filmorate.model.MPA;
+import ru.yandex.practicum.filmorate.service.MPAService;
 
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/genres")
-public class GenreController {
+@RequestMapping(value = "/mpa")
+public class MPAController {
 
-    private final GenreService genreService;
+    private final MPAService mpaService;
 
     @GetMapping
-    public List<Genre> getAllGenres() {
-        return genreService.getAllGenre();
+    public List<MPA> getAllMPA() {
+        return mpaService.getAllMPA();
     }
 
-    @GetMapping("/{genreId}")
-    public Genre getGenres(@PathVariable int genreId) {
-        return genreService.getGenreById(genreId);
+    @GetMapping("/{ratingId}")
+    public MPA getMPA(@PathVariable int mpaId) {
+        return mpaService.getMPAById(mpaId);
     }
 }

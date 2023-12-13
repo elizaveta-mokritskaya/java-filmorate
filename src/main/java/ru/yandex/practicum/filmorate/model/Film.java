@@ -35,20 +35,21 @@ public class Film {
 
     private HashSet<Integer> likes = new HashSet<>();
 
-    private HashSet<Genre> genres = new HashSet<>();
+    private List<Genre> genres = new ArrayList<>();
 
     private MPA mpa;
 
     public Film(Integer id, String name, String description, Date releaseDate, Integer duration, HashSet<Integer> likes,
-                HashSet<Genre> genres, MPA mpa) {
+                List<Genre> genres, MPA mpa) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.likes = likes;
-        this.genres = genres;
-        this.mpa = mpa;
+        if (genres != null) {
+            this.genres = genres;
+        }
+//        this.mpa = mpa;
     }
 
 //    public Map<String, Objects> toMap() {
