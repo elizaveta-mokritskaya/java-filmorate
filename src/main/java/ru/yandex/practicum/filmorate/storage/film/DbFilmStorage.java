@@ -25,9 +25,10 @@ public class DbFilmStorage implements FilmStorage {
             "values (?, ?, ?, ?, ?)";
     public static final String FILM_SELECT = "select " +
             "F.ID, F.NAME, F.DESCRIPTION, F.DURATION, F.RELEASE_DATE, M.ID as rating_id, M.NAME as rating_name " +
-            "from films as F " +
-            "join PUBLIC.MPAS M on M.ID = F.RATING_ID";
-    public static final String SELECT_BY_ID_SQL = FILM_SELECT + " where F.ID = ?";
+            "from films as F "+
+            "join MPAS M on M.ID = F.RATING_ID";
+    public static final String SELECT_BY_ID_SQL = FILM_SELECT +
+            " where F.ID = ?";
     public static final String UPDATE_SQL = "update films set " +
             "name=? " +
             ", description=? " +
@@ -39,6 +40,10 @@ public class DbFilmStorage implements FilmStorage {
     public static final String INSERT_GENRES = "insert into film_genres(film_id, genre_id) values(?, ?)";
     public static final String DELETE_GENRES = "delete from film_genres where film_id = ?";
     public static final String SELECT_ALL = FILM_SELECT;
+    public static final String SELECT_GENRES_SQL = "select GENRES.ID, GENRES.NAME from GENRES " +
+            "join PUBLIC.FILM_GENRES FG on GENRES.ID = FG.GENRE_ID " +
+            "where FG.FILM_ID = ? " +
+            "order by GENRE_ID";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -58,7 +63,7 @@ public class DbFilmStorage implements FilmStorage {
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL, new String[]{"id"});
             statement.setString(1, film.getName());
             statement.setString(2, film.getDescription());
-            statement.setDate(3, new java.sql.Date( film.getReleaseDate().getTime()));
+            statement.setDate(3, Date.valueOf(film.getReleaseDate()));
             statement.setInt(4, film.getDuration());
             statement.setInt(5, film.getMpa().getId());
             return statement;
@@ -86,7 +91,7 @@ public class DbFilmStorage implements FilmStorage {
         jdbcTemplate.update(UPDATE_SQL,
                 film.getName(),
                 film.getDescription(),
-                film.getReleaseDate(),
+                Date.valueOf(film.getReleaseDate()),
                 film.getDuration(),
                 film.getMpa().getId(),
                 film.getId());
@@ -103,13 +108,14 @@ public class DbFilmStorage implements FilmStorage {
                 .id(filmId)
                 .name(resultSet.getString("name"))
                 .description(resultSet.getString("description"))
-                .releaseDate(resultSet.getDate("release_date"))
+                .releaseDate(resultSet.getDate("release_date").toLocalDate())
                 .duration(resultSet.getInt("duration"))
                 .mpa(MPA.builder()
                         .id(resultSet.getInt("rating_id"))
                         .name(resultSet.getString("rating_name"))
                         .build()
                 )
+                .genres(loadGenres(filmId))
                 .build();
     }
 
@@ -118,6 +124,15 @@ public class DbFilmStorage implements FilmStorage {
         new HashSet<>(genresIds).forEach(
                 genreId -> jdbcTemplate.update(INSERT_GENRES, filmId, genreId)
         );
+    }
+    private List<Genre> loadGenres(int filmId) {
+        return jdbcTemplate.query(SELECT_GENRES_SQL, this::mapRowToGenre, filmId);
+    }
+    private Genre mapRowToGenre(ResultSet resultSet, int rowNum) throws SQLException {
+        return Genre.builder()
+                .id(resultSet.getInt("id"))
+                .name(resultSet.getString("name"))
+                .build();
     }
 
 }
