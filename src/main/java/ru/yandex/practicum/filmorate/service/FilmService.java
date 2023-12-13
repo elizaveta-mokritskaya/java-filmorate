@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmDoesntExistException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.mapper.FilmMapper;
-import ru.yandex.practicum.filmorate.model.request.FilmRequest;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.time.LocalDate;
@@ -21,19 +19,16 @@ import java.util.stream.Collectors;
 public class FilmService {
 
     private final FilmStorage storage;
-    private final FilmMapper mapper;
     private final UserService userService;
     private int id = 1;
 
-    private static final Date FIRST_RELEASE = new Date(1895, 12, 28);
+    private static final LocalDate FIRST_RELEASE = LocalDate.of(1895, 12, 28);
 
     public FilmService(
             @Qualifier("databaseFilmStorage")
             FilmStorage storage,
-            FilmMapper mapper,
             UserService userService) {
         this.storage = storage;
-        this.mapper = mapper;
         this.userService = userService;
     }
 
@@ -49,11 +44,8 @@ public class FilmService {
         return optionalFilm.get();
     }
 
-    public Film addNewFilm(FilmRequest request) {
-        Film film = mapper.getFilm(request);
-        film.setId(id++);
-        storage.add(film);
-        return film;
+    public Film addNewFilm(Film film) {
+        return storage.add(film);
     }
 
 
@@ -77,7 +69,7 @@ public class FilmService {
 
     public Film updateFilm(Film film) {
         if ((!film.getName().isEmpty()) && (film.getDescription().length() < 200)
-                && (film.getReleaseDate().getTime()< FIRST_RELEASE.getTime())
+                && (film.getReleaseDate().isAfter(FIRST_RELEASE))
                 && (film.getDuration() > 0)) {
             Optional<Film> optionalFilm = storage.getById(film.getId());
             if (optionalFilm.isEmpty()) {
@@ -89,6 +81,8 @@ public class FilmService {
             currentFilm.setReleaseDate(film.getReleaseDate());
             currentFilm.setDuration(film.getDuration());
             currentFilm.setLikes(film.getLikes());
+            currentFilm.setMpa(film.getMpa());
+            currentFilm.setGenres(film.getGenres());
             return storage.updateFilm(currentFilm);
         }
         throw new ValidationException("не выполнены условия: название не может быть пустым;\n" +

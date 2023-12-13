@@ -12,6 +12,8 @@ import java.util.Optional;
 @Component
 public class DbMPAStorage implements MPAStorage {
     public static final String SELECT_BY_ID = "select * from mpas where id = ?";
+    public static final String SELECT_ALL = "select * from mpas";
+
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -21,7 +23,7 @@ public class DbMPAStorage implements MPAStorage {
 
     @Override
     public List<MPA> getAllMPA() {
-        return null;
+        return jdbcTemplate.query(SELECT_ALL, this::mapRowToMPA);
     }
 
     @Override

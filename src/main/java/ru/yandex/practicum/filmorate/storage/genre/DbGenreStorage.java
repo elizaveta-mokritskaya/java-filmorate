@@ -13,6 +13,7 @@ import java.util.Optional;
 public class DbGenreStorage implements GenreStorage {
 
     public static final String SELECT_BY_ID = "select * from genres where id = ?";
+    public static final String SELECT_ALL_SQL = "select * from genres";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -22,7 +23,7 @@ public class DbGenreStorage implements GenreStorage {
 
     @Override
     public List<Genre> getAllGenre() {
-        return null;
+        return jdbcTemplate.query(SELECT_ALL_SQL, this::mapRowToGenre);
     }
 
     @Override

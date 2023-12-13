@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.request.FilmRequest;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import javax.validation.Valid;
@@ -31,7 +30,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film addNewFilm(@Valid @RequestBody FilmRequest filmRequest) {
+    public Film addNewFilm(@Valid @RequestBody Film filmRequest) {
         log.info("POST add new film request: " + filmRequest);
         return filmService.addNewFilm(filmRequest);
     }

@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.model.validation.PositiveDuration;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.*;
 
 @Data
@@ -28,7 +29,7 @@ public class Film {
     @NotNull
     @DateIsntBefore28december1895
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date releaseDate;
+    private LocalDate releaseDate;
     @NotNull
     @PositiveDuration
     private Integer duration;
@@ -39,7 +40,7 @@ public class Film {
 
     private MPA mpa;
 
-    public Film(Integer id, String name, String description, Date releaseDate, Integer duration, HashSet<Integer> likes,
+    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration, HashSet<Integer> likes,
                 List<Genre> genres, MPA mpa) {
         this.id = id;
         this.name = name;
@@ -49,7 +50,7 @@ public class Film {
         if (genres != null) {
             this.genres = genres;
         }
-//        this.mpa = mpa;
+        this.mpa = mpa;
     }
 
 //    public Map<String, Objects> toMap() {
