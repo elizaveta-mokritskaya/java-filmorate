@@ -51,13 +51,13 @@ public class Film {
         this.mpa = mpa;
     }
 
-    public Map<String, Objects> toMap() {
-        Map<String, Object> values = new HashMap<>();
-        values.put("name", name);
-        values.put("description", description);
-        values.put("release_Date", releaseDate);
-        values.put("duration", duration);
-        values.put("rating_id", mpa.getId());
-        return values;
-    }
+//    public Map<String, Objects> toMap() {
+//        Map<String, Object> values = new HashMap<>();
+//        values.put("name", name);
+//        values.put("description", description);
+//        values.put("release_Date", releaseDate);
+//        values.put("duration", duration);
+//        values.put("rating_id", mpa.getId());
+//        return values;
+//    }
 }
