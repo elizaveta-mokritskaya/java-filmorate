@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.request.FilmRequest;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import javax.validation.Valid;
@@ -31,7 +30,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film addNewFilm(@Valid @RequestBody FilmRequest filmRequest) {
+    public Film addNewFilm(@Valid @RequestBody Film filmRequest) {
         log.info("POST add new film request: " + filmRequest);
         return filmService.addNewFilm(filmRequest);
     }
@@ -42,22 +41,22 @@ public class FilmController {
         return filmService.updateFilm(film);
     }
 
-//    @PutMapping("/{id}/like/{userId}")
-//    public Film likeFilm(@PathVariable("id") Integer filmId, @PathVariable("userId") Integer userId) {
-//        filmService.likeFilm(filmId, userId);
-//        return filmService.getFilmById(filmId);
-//    }
+    @PutMapping("/{id}/like/{userId}")
+    public Film likeFilm(@PathVariable("id") Integer filmId, @PathVariable("userId") Integer userId) {
+        filmService.likeFilm(filmId, userId);
+        return filmService.getFilmById(filmId);
+    }
 
-//    @DeleteMapping("/{id}/like/{userId}")
-//    public Film unlikeFilm(@PathVariable("id") Integer filmId, @PathVariable("userId") Integer userId) {
-//        filmService.unlikeFilm(filmId, userId);
-//        return filmService.getFilmById(filmId);
-//    }
+    @DeleteMapping("/{id}/like/{userId}")
+    public Film unlikeFilm(@PathVariable("id") Integer filmId, @PathVariable("userId") Integer userId) {
+        filmService.unlikeFilm(filmId, userId);
+        return filmService.getFilmById(filmId);
+    }
 
-//    @GetMapping("/popular")
-//    public List<Film> getTopFilms(@RequestParam(required = true, defaultValue = "10") Integer count) {
-//        return filmService.getTopFilms(count);
-//    }
+    @GetMapping("/popular")
+    public List<Film> getTopFilms(@RequestParam(required = true, defaultValue = "10") Integer count) {
+        return filmService.getTopFilms(count);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public void validationExceptionHandle(MethodArgumentNotValidException exception) throws MethodArgumentNotValidException {
