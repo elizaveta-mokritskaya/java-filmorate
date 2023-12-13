@@ -80,7 +80,7 @@ public class FilmService {
             currentFilm.setDescription(film.getDescription());
             currentFilm.setReleaseDate(film.getReleaseDate());
             currentFilm.setDuration(film.getDuration());
-            currentFilm.setLikes(film.geёtLikes());
+            currentFilm.setLikes(film.getLikes());
             currentFilm.setMpa(film.getMpa());
             currentFilm.setGenres(film.getGenres());
             return storage.updateFilm(currentFilm);
