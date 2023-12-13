@@ -49,7 +49,7 @@ public class Film {
         if (genres != null) {
             this.genres = genres;
         }
-//        this.mpa = mpa;
+        this.mpa = mpa;
     }
 
 //    public Map<String, Objects> toMap() {
