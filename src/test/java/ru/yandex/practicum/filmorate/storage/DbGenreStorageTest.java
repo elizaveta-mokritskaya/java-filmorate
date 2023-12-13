@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @JdbcTest
-@RequiredArgsConstructor(onConstructor = @Autowired)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 class DbGenreStorageTest {
 
     private static final String COMEDY = "Комедия";
@@ -37,14 +37,42 @@ class DbGenreStorageTest {
     @Test
     @DisplayName("Возвращает жанр с id 1")
     public void getGenreById1() {
-        Genre genre = storage.getById(1);
-        assertEquals("Комедия", genre.getName());
+        Optional<Genre> genre = storage.getById(1);
+        assertEquals("Комедия", genre.get().getName());
     }
 
     @Test
     @DisplayName("Возвращает жанр с id 2")
-    public void getGenreById1() {
+    public void getGenreById2() {
         Optional<Genre> genre = storage.getById(2);
         assertEquals("Драма", genre.get().getName());
+    }
+
+    @Test
+    @DisplayName("Возвращает жанр с id 3")
+    public void getGenreById3() {
+        Optional<Genre> genre = storage.getById(3);
+        assertEquals("Мультфильм", genre.get().getName());
+    }
+
+    @Test
+    @DisplayName("Возвращает жанр с id 4")
+    public void getGenreById4() {
+        Optional<Genre> genre = storage.getById(4);
+        assertEquals("Триллер", genre.get().getName());
+    }
+
+    @Test
+    @DisplayName("Возвращает жанр с id 5")
+    public void getGenreById5() {
+        Optional<Genre> genre = storage.getById(5);
+        assertEquals("Документальный", genre.get().getName());
+    }
+
+    @Test
+    @DisplayName("Возвращает жанр с id 6")
+    public void getGenreById6() {
+        Optional<Genre> genre = storage.getById(6);
+        assertEquals("Боевик", genre.get().getName());
     }
 }
