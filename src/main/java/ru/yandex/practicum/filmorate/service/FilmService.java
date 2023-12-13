@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmDoesntExistException;
@@ -10,7 +9,6 @@ import ru.yandex.practicum.filmorate.model.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.request.FilmRequest;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -57,23 +55,23 @@ public class FilmService {
     }
 
 
-    public void likeFilm(Integer filmId, Integer userId) {
-        Film film = getFilmById(filmId);
-        userService.checkIfUserExists(userId);
-        film.getLikes().add(userId);
-    }
+//    public void likeFilm(Integer filmId, Integer userId) {
+//        Film film = getFilmById(filmId);
+//        userService.checkIfUserExists(userId);
+//        film.getLikes().add(userId);
+//    }
 
-    public void unlikeFilm(Integer filmId, Integer userId) {
-        Film film = getFilmById(filmId);
-        userService.checkIfUserExists(userId);
-        film.getLikes().remove(userId);
-    }
+//    public void unlikeFilm(Integer filmId, Integer userId) {
+//        Film film = getFilmById(filmId);
+//        userService.checkIfUserExists(userId);
+//        film.getLikes().remove(userId);
+//    }
 
-    public List<Film> getTopFilms(Integer count) {
-        return storage.getList().stream()
-                .sorted(Comparator.comparingInt(film -> - film.getLikes().size()))
-                .limit(count).collect(Collectors.toList());
-    }
+//    public List<Film> getTopFilms(Integer count) {
+//        return storage.getList().stream()
+//                .sorted(Comparator.comparingInt(film -> - film.getLikes().size()))
+//                .limit(count).collect(Collectors.toList());
+//    }
 
     public Film updateFilm(Film film) {
         if ((!film.getName().isEmpty()) && (film.getDescription().length() < 200)
@@ -88,7 +86,7 @@ public class FilmService {
             currentFilm.setDescription(film.getDescription());
             currentFilm.setReleaseDate(film.getReleaseDate());
             currentFilm.setDuration(film.getDuration());
-            currentFilm.setLikes(film.getLikes());
+            //currentFilm.setLikes(film.getLikes());
             return storage.updateFilm(currentFilm);
         }
         throw new ValidationException("не выполнены условия: название не может быть пустым;\n" +

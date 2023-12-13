@@ -31,9 +31,8 @@ public class UserController {
     }
 
     @PostMapping
-    public User addNewUser(@Valid @RequestBody UserRequest userRequest) {
-        log.info("POST add new user request: " + userRequest);
-        return userService.addNewUser(userRequest);
+    public User addNewUser(@RequestBody User user) {
+        return userService.addNewUser(user);
     }
 
     @PutMapping

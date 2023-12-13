@@ -25,15 +25,15 @@ public class DbFilmStorage implements FilmStorage {
             "values (?, ?, ?, ?, ?)";
     public static final String FILM_SELECT = "select " +
             "F.ID, F.NAME, F.DESCRIPTION, F.DURATION, F.RELEASE_DATE, M.ID as rating_id, M.NAME as rating_name " +
-            "from films as F "+
-            "join MPAS M on M.ID = F.RATING_ID";
-    public static final String SELECT_BY_ID_SQL = FILM_SELECT +
-            " where F.ID = ?";
+            "from films as F " +
+            "join PUBLIC.MPAS M on M.ID = F.RATING_ID";
+    public static final String SELECT_BY_ID_SQL = FILM_SELECT + " where F.ID = ?";
     public static final String UPDATE_SQL = "update films set " +
             "name=? " +
             ", description=? " +
             ", release_date=? " +
             ", duration=? " +
+            ", rating_id=? " +
             "where id=?";
     public static final String DELETE_BY_ID_SQL = "delete from films where id = ?";
     public static final String INSERT_GENRES = "insert into film_genres(film_id, genre_id) values(?, ?)";
@@ -64,15 +64,15 @@ public class DbFilmStorage implements FilmStorage {
             return statement;
         }, keyHolder);
         int filmId = Objects.requireNonNull(keyHolder.getKey()).intValue();
-        updateGenres(film.getId(), film.getGenres().stream().map(Genre::getId).collect(Collectors.toList()));
+        updateGenres(filmId, film.getGenres().stream().map(Genre::getId).collect(Collectors.toList()));
         return Film.builder()
                 .name(film.getName())
                 .description(film.getDescription())
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
                 .mpa(film.getMpa())
-                .id(filmId)
                 .genres(film.getGenres())
+                .id(filmId)
                 .build();
     }
 
