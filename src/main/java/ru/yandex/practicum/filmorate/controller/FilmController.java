@@ -39,12 +39,7 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
         log.info("PUT update film: " + film);
-        Film currentFilm = filmService.getFilmById(film.getId());
-        currentFilm.setName(film.getName());
-        currentFilm.setDescription(film.getDescription());
-        currentFilm.setReleaseDate(film.getReleaseDate());
-        currentFilm.setDuration(film.getDuration());
-        return currentFilm;
+        return filmService.updateFilm(film);
     }
 
     @PutMapping("/{id}/like/{userId}")

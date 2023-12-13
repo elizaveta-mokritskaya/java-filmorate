@@ -17,8 +17,8 @@ import java.util.Optional;
 @Component("databaseFilmStorage")
 public class DbFilmStorage implements FilmStorage {
     public static final String INSERT_SQL = "Insert into " +
-            "films(name, description, release_date, duration, rating_id) " +
-            "values (?,     ?,          ? ,         ?,          ?)";
+            "films(name, description, release_date, duration ) " +
+            "values (?,     ?,          ? ,         ?)";
     public static final String FILM_SELECT = "select " +
             "F.ID, F.NAME, F.DESCRIPTION, F.DURATION, F.RELEASE_DATE " +
             "from films as F ";
@@ -49,7 +49,7 @@ public class DbFilmStorage implements FilmStorage {
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL, new String[]{"id"});
             statement.setString(1, film.getName());
             statement.setString(2, film.getDescription());
-            statement.setDate(3, (Date) film.getReleaseDate());
+            statement.setDate(3, new java.sql.Date( film.getReleaseDate().getTime()));
             statement.setInt(4, film.getDuration());
             return statement;
         }, keyHolder);
