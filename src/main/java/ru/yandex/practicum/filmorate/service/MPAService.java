@@ -18,7 +18,9 @@ public class MPAService {
         this.storage = storage;
     }
 
-    public List<MPA> getAllMPA() { return storage.getAllMPA(); }
+    public List<MPA> getAllMPA() {
+        return storage.getAllMPA();
+    }
 
     public MPA getMPAById(int mpaId) {
         Optional<MPA> mpaOptional = storage.getById(mpaId);
