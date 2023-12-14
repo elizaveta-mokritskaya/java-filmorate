@@ -10,9 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Component("databaseUserStorage")
 public class DbUserStorage implements UserStorage{
@@ -89,5 +87,13 @@ public class DbUserStorage implements UserStorage{
                 .email(resultSet.getString("email"))
                 .birthday(resultSet.getDate("birthday").toLocalDate())
                 .build();
+    }
+
+    @Override
+    public List<User> findUsersByIds(Set<Integer> setId) {
+        String selectByIdsSql = "select * from users where ID in (" +
+                String.join(",", Collections.nCopies(setId.size(), "?"))
+                + ") order by ID";
+        return jdbcTemplate.query(selectByIdsSql, setId.toArray(), this::mapRowToUser);
     }
 }

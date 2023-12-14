@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component("inMemoryUserStorage")
 public class InMemoryUserStorage implements UserStorage {
@@ -35,5 +36,10 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public void deleteUser(User user) {
 
+    }
+
+    @Override
+    public List<User> findUsersByIds(Set<Integer> setId) {
+        return null;
     }
 }
