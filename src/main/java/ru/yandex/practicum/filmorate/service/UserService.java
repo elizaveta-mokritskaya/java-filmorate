@@ -20,7 +20,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserStorage storage;
-    //private final UserMapper mapper;
     private int id = 1;
 
     public UserService(@Qualifier("databaseUserStorage") UserStorage storage) {

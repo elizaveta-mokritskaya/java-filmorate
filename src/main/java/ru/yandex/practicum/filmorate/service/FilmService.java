@@ -6,13 +6,11 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmDoesntExistException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,16 +47,23 @@ public class FilmService {
     }
 
 
-    public void likeFilm(Integer filmId, Integer userId) {
+    public Set<Integer> likeFilm(Integer filmId, Integer userId) {
+        User user = userService.getUserById(userId);
         Film film = getFilmById(filmId);
-        userService.checkIfUserExists(userId);
-        film.getLikes().add(userId);
+        if (film.getLikes().contains(user.getId())) {
+            return film.getLikes();
+        }
+        storage.addLike(filmId, userId);
+        return storage.getById(filmId).get().getLikes();
     }
+
+
 
     public void unlikeFilm(Integer filmId, Integer userId) {
         Film film = getFilmById(filmId);
         userService.checkIfUserExists(userId);
-        film.getLikes().remove(userId);
+        User user = userService.getUserById(userId);
+        storage.removeLike(filmId, userId);
     }
 
     public List<Film> getTopFilms(Integer count) {

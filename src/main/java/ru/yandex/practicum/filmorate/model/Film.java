@@ -34,32 +34,25 @@ public class Film {
     @PositiveDuration
     private Integer duration;
 
-    private HashSet<Integer> likes = new HashSet<>();
+    private Set<Integer> likes = new HashSet<>();
 
     private List<Genre> genres = new ArrayList<>();
 
     private MPA mpa;
 
-    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration, HashSet<Integer> likes,
+    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration, Set<Integer> likes,
                 List<Genre> genres, MPA mpa) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
+        if (likes != null) {
+            this.likes = likes;
+        }
         if (genres != null) {
             this.genres = genres;
         }
         this.mpa = mpa;
     }
-
-//    public Map<String, Objects> toMap() {
-//        Map<String, Object> values = new HashMap<>();
-//        values.put("name", name);
-//        values.put("description", description);
-//        values.put("release_Date", releaseDate);
-//        values.put("duration", duration);
-//        values.put("rating_id", mpa.getId());
-//        return values;
-//    }
 }

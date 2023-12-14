@@ -12,10 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component("databaseFilmStorage")
@@ -44,6 +41,12 @@ public class DbFilmStorage implements FilmStorage {
             "join PUBLIC.FILM_GENRES FG on GENRES.ID = FG.GENRE_ID " +
             "where FG.FILM_ID = ? " +
             "order by GENRE_ID";
+    public static final String INSERT_LIKE =
+            "INSERT INTO LIKES (FILM_ID, USER_ID) " +
+                    "values (       ?,      ? )";
+    public static final String SELECT_LIKES = "SELECT * FROM LIKES WHERE FILM_ID=?";
+    public static final String DELETE_LIKE = "DELETE FROM LIKES WHERE FILM_ID = ? AND USER_ID = ?";
+
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -102,6 +105,40 @@ public class DbFilmStorage implements FilmStorage {
     @Override
     public void deleteFilm(Film film) { jdbcTemplate.update(DELETE_BY_ID_SQL, film.getId()); }
 
+    private void updateGenres(int filmId, List<Integer> genresIds) {
+        jdbcTemplate.update(DELETE_GENRES, filmId);
+        new HashSet<>(genresIds).forEach(
+                genreId -> jdbcTemplate.update(INSERT_GENRES, filmId, genreId)
+        );
+    }
+    private List<Genre> loadGenres(int filmId) {
+        return jdbcTemplate.query(SELECT_GENRES_SQL, this::mapRowToGenre, filmId);
+    }
+
+    @Override
+    public void addLike(int filmId, int userId) {
+        jdbcTemplate.update(INSERT_LIKE, filmId, userId);
+    }
+
+    @Override
+    public void removeLike(Integer filmId, Integer userId) {
+        jdbcTemplate.update(DELETE_LIKE, filmId, userId);
+    }
+
+    private Set<Integer> loadLikes(int filmId) {
+        return new HashSet<>(jdbcTemplate.query(SELECT_LIKES, this::mapRowToIntegers, filmId));
+    }
+    private Genre mapRowToGenre(ResultSet resultSet, int rowNum) throws SQLException {
+        return Genre.builder()
+                .id(resultSet.getInt("id"))
+                .name(resultSet.getString("name"))
+                .build();
+    }
+
+    private Integer mapRowToIntegers(ResultSet resultSet, int i) throws SQLException {
+        return resultSet.getInt("USER_ID");
+    }
+
     private Film mapRowToFilm(ResultSet resultSet, int rowNum) throws SQLException {
         int filmId = resultSet.getInt("id");
         return Film.builder()
@@ -115,24 +152,8 @@ public class DbFilmStorage implements FilmStorage {
                         .name(resultSet.getString("rating_name"))
                         .build()
                 )
+                .likes(loadLikes(filmId))
                 .genres(loadGenres(filmId))
                 .build();
     }
-
-    private void updateGenres(int filmId, List<Integer> genresIds) {
-        jdbcTemplate.update(DELETE_GENRES, filmId);
-        new HashSet<>(genresIds).forEach(
-                genreId -> jdbcTemplate.update(INSERT_GENRES, filmId, genreId)
-        );
-    }
-    private List<Genre> loadGenres(int filmId) {
-        return jdbcTemplate.query(SELECT_GENRES_SQL, this::mapRowToGenre, filmId);
-    }
-    private Genre mapRowToGenre(ResultSet resultSet, int rowNum) throws SQLException {
-        return Genre.builder()
-                .id(resultSet.getInt("id"))
-                .name(resultSet.getString("name"))
-                .build();
-    }
-
 }
