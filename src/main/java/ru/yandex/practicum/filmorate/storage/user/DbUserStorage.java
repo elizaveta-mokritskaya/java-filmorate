@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Component("databaseUserStorage")
-public class DbUserStorage implements UserStorage{
+public class DbUserStorage implements UserStorage {
     public static final String INSERT = "insert into " +
             "users(name, login, birthday, email) " +
             "values (?,    ?,     ? ,      ?)";
