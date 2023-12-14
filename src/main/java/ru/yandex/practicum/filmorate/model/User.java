@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import java.time.LocalDate;
 import java.util.*;
 
 @Data
@@ -27,10 +28,10 @@ public class User {
     @NotNull
     @PastOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
-    private Set<Integer> friends;
+    private LocalDate birthday;
 
-    public User(Integer id, String email, String login, String name, Date birthday, Set<Integer> friends) {
+
+    public User(Integer id, String email, String login, String name, LocalDate birthday) {
         this.id = id;
         this.email = email;
         this.login = login;
@@ -39,10 +40,6 @@ public class User {
             this.name = login;
         }
         this.birthday = birthday;
-        this.friends = friends;
-        if (friends == null) {
-            this.friends = new HashSet<>();
-        }
 
     }
 
