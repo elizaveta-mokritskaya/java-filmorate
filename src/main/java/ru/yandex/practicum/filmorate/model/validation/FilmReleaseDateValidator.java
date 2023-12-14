@@ -3,8 +3,6 @@ package ru.yandex.practicum.filmorate.model.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class FilmReleaseDateValidator implements
         ConstraintValidator<DateIsntBefore28december1895, LocalDate> {
