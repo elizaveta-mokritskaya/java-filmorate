@@ -22,7 +22,7 @@ public class DbFilmStorage implements FilmStorage {
             "values (?, ?, ?, ?, ?)";
     public static final String FILM_SELECT = "select " +
             "F.ID, F.NAME, F.DESCRIPTION, F.DURATION, F.RELEASE_DATE, M.ID as rating_id, M.NAME as rating_name " +
-            "from films as F "+
+            "from films as F " +
             "join MPAS M on M.ID = F.RATING_ID";
     public static final String SELECT_BY_ID_SQL = FILM_SELECT +
             " where F.ID = ?";
@@ -103,7 +103,9 @@ public class DbFilmStorage implements FilmStorage {
     }
 
     @Override
-    public void deleteFilm(Film film) { jdbcTemplate.update(DELETE_BY_ID_SQL, film.getId()); }
+    public void deleteFilm(Film film) {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, film.getId());
+    }
 
     private void updateGenres(int filmId, List<Integer> genresIds) {
         jdbcTemplate.update(DELETE_GENRES, filmId);
@@ -111,6 +113,7 @@ public class DbFilmStorage implements FilmStorage {
                 genreId -> jdbcTemplate.update(INSERT_GENRES, filmId, genreId)
         );
     }
+
     private List<Genre> loadGenres(int filmId) {
         return jdbcTemplate.query(SELECT_GENRES_SQL, this::mapRowToGenre, filmId);
     }
@@ -128,6 +131,7 @@ public class DbFilmStorage implements FilmStorage {
     private Set<Integer> loadLikes(int filmId) {
         return new HashSet<>(jdbcTemplate.query(SELECT_LIKES, this::mapRowToIntegers, filmId));
     }
+
     private Genre mapRowToGenre(ResultSet resultSet, int rowNum) throws SQLException {
         return Genre.builder()
                 .id(resultSet.getInt("id"))

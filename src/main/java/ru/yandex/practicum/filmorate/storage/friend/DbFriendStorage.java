@@ -61,7 +61,7 @@ public class DbFriendStorage implements FriendStorage {
 
     @Override
     public void deleteFriend(int userId, int friendsId) {
-        jdbcTemplate.update(DELETE,userId, friendsId);
+        jdbcTemplate.update(DELETE, userId, friendsId);
     }
 
     private Friend mapRowToFriends(ResultSet resultSet, int rowNum) throws SQLException {
