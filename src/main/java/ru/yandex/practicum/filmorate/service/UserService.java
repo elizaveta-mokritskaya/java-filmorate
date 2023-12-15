@@ -41,23 +41,19 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        if ((!user.getName().isEmpty()) && (!user.getEmail().isEmpty())) {
-            Optional<User> optionalUser = storage.getById(user.getId());
-            if (optionalUser.isEmpty()) {
-                throw new UserDoesntExistException();
-            }
-            User currentUser = optionalUser.get();
-            currentUser.setEmail(user.getEmail());
-            currentUser.setLogin(user.getLogin());
-            if ((user.getName() == null) || (user.getName().isEmpty())) {
-                user.setName(user.getLogin());
-            }
-            currentUser.setName(user.getName());
-            currentUser.setBirthday(user.getBirthday());
-            return storage.updateUser(user);
+        Optional<User> optionalUser = storage.getById(user.getId());
+        if (optionalUser.isEmpty()) {
+            throw new UserDoesntExistException();
         }
-        throw new ValidationException("не выполнены условия: название не может быть пустым;\n" +
-                "    e-mail не может быть пустым;\n");
+        User currentUser = optionalUser.get();
+        currentUser.setEmail(user.getEmail());
+        currentUser.setLogin(user.getLogin());
+        if ((user.getName() == null) || (user.getName().isEmpty())) {
+            user.setName(user.getLogin());
+        }
+        currentUser.setName(user.getName());
+        currentUser.setBirthday(user.getBirthday());
+        return storage.updateUser(user);
     }
 
     public void makeFriends(Integer id1, Integer id2) {
