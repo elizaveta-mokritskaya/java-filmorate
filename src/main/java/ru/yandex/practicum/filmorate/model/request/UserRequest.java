@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
-import java.util.Date;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Getter
@@ -27,5 +27,5 @@ public class UserRequest {
     @NotNull
     @PastOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final Date birthday;
+    private final LocalDate birthday;
 }

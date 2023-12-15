@@ -1,15 +1,13 @@
 package ru.yandex.practicum.filmorate.model.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import ru.yandex.practicum.filmorate.model.validation.DateIsntBefore28december1895;
 import ru.yandex.practicum.filmorate.model.validation.MaxLength;
 import ru.yandex.practicum.filmorate.model.validation.PositiveDuration;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class FilmRequest {
@@ -22,9 +20,7 @@ public class FilmRequest {
     @MaxLength(val = 200)
     private String description;
     @NotNull
-    @DateIsntBefore28december1895
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date releaseDate;
+    private LocalDate releaseDate;
     @NotNull
     @PositiveDuration
     private Integer duration;
