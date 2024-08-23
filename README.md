@@ -7,6 +7,11 @@
 Подробное [описание](https://github.com/elizaveta-mokritskaya/java-filmorate/blob/main/readme_files/tables.dbml)
 структуры в формате dbml. Там же указаны все возможные значения перечислений.
 
+# Technology stack
+* SpringBoot
+* JDBC
+* PostgreSQL
+* Apache Maven
 
 Примеры Sql запросов:
 
