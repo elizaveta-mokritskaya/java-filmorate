@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.model.request.UserRequest;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
@@ -31,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User addNewUser(@Valid @RequestBody UserRequest userRequest) {
+    public User addNewUser(@Valid @RequestBody User userRequest) {
         log.info("POST add new user request: " + userRequest);
         return userService.addNewUser(userRequest);
     }
@@ -39,12 +38,7 @@ public class UserController {
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
         log.info("PUT update user: " + user);
-        User currentUser = userService.getUserById(user.getId());
-        currentUser.setLogin(user.getLogin());
-        currentUser.setName(user.getName());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setBirthday(user.getBirthday());
-        return currentUser;
+        return userService.updateUser(user);
     }
 
     @PutMapping("/{id}/friends/{friendId}")

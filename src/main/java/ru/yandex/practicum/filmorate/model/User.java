@@ -9,8 +9,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
-import java.util.Date;
-import java.util.HashSet;
+import java.time.LocalDate;
+import java.util.*;
 
 @Data
 @Builder
@@ -28,23 +28,35 @@ public class User {
     @NotNull
     @PastOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+    private LocalDate birthday;
 
-    private HashSet<Integer> friends = new HashSet<>();
 
-    private HashSet<Integer> incomingFriendRequests = new HashSet<>();
-
-    private HashSet<Integer> outgoingFriendRequests = new HashSet<>();
-
-    public User(Integer id, String email, String login, String name, Date birthday, HashSet<Integer> friends) {
+    public User(Integer id, String email, String login, String name, LocalDate birthday) {
         this.id = id;
         this.email = email;
         this.login = login;
         this.name = name;
+        if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
+            this.name = login;
+        }
         this.birthday = birthday;
-        if (friends != null) {
-            this.friends = friends;
+
+    }
+
+    public void setName(String name) {
+        if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
+            this.name = login;
         }
     }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("email", email);
+        values.put("login", login);
+        values.put("name", name);
+        values.put("birthday", birthday);
+        return values;
+    }
+
 }
 
